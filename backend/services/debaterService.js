@@ -9,6 +9,8 @@ export async function getDebater(id) {
 }
 
 export async function addDebater(data) {
-  if (!data.firstName) throw new Error('firstName required')
-  return repo.createDebater(data.firstName, data.lastName || null)
+  // if (!data.firstName) throw new Error('firstName required')
+  // return repo.createDebater(data.firstName, data.lastName || null)
+  // return a dummy object for now
+  return { id: 999, firstName: "dineth", lastName: "hetti" || null }
 }

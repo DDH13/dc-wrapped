@@ -1,6 +1,7 @@
 import { Router } from "express"
 const router = Router()
 import { listDebaters, getDebater, addDebater } from '../services/debaterService.js'
+import { apiKeyAuth } from '../middleware/apiKeyAuth.js'
 
 router.use(logger)
 
@@ -24,7 +25,7 @@ router.get('/:id', async (req, res, next) => {
 })
 
 
-router.post('/', async (req, res, next) => {
+router.post('/add', apiKeyAuth, async (req, res, next) => {
   try {
     const created = await addDebater(req.body)
     res.status(201).json(created)
@@ -33,6 +34,14 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.put('/:id', apiKeyAuth, async (req, res, next) => {
+  try {
+    const updated = await service.updateDebater(req.params.id, req.body)
+    res.json(updated)
+  } catch (err) {
+    next(err)
+  }
+})
 
 function logger(req, res, next) {
   console.log(req.originalUrl)
