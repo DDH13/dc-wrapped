@@ -1,13 +1,14 @@
-import { Pool } from 'pg'
+import { Pool } from 'pg';
 
-const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL,
-  ssl: process.env.NODE_ENV === 'production'
-    ? { rejectUnauthorized: false }
-    : false
-})
+let pool;
 
-// important for serverless
-export async function query(text, params) {
-  return pool.query(text, params)
+if (!global._pgPool) {
+  global._pgPool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+  });
 }
+
+pool = global._pgPool;
+
+export const query = (text, params) => pool.query(text, params);
