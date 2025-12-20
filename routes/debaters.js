@@ -14,16 +14,20 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:email', async (req, res, next) => {
+router.get('/by-email/:email', async (req, res, next) => {
   try {
-    const debater = await getDebaterByEmail(req.params.email)
-    if (!debater) return res.status(404).send('Not found')
-    res.json(debater)
+    const email = decodeURIComponent(req.params.email)
+
+    const debater = await getDebaterByEmail(email)
+    if (!debater) {
+      return res.status(404).json({ message: 'Not found' })
+    }
+
+    res.status(200).json(debater)
   } catch (err) {
     next(err)
   }
 })
-
 // router.post('/', async (req, res, next) => {
 //   try {
 //     const created = await addDebater(req.body)
