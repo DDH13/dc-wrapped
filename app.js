@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express, { urlencoded, json } from 'express'
 import cors from 'cors'
 import debaterRouter from './routes/debaters.js'
+import judgeRouter from './routes/judges.js'
 
 const app = express()
 
@@ -11,6 +12,7 @@ app.use(json())
 
 
 app.use("/api/v1/debaters", debaterRouter)
+app.use("/api/v1/judges", judgeRouter)
 
 // 404 handler
 app.use((req, res, next) => {
