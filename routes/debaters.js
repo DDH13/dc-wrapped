@@ -32,13 +32,13 @@ router.get('/by-email/:email', async (req, res, next) => {
 router.post('/personality/:email', async (req, res, next) => {
   try {
     const email = decodeURIComponent(req.params.email)
-    const traits = req.body
-    const updated = await updateDebaterTraits(email, traits)
-    if (!updated) return res.status(404).send('Not found')
-    res.json(updated)
+    const updated = await updateDebaterTraits(email, req.body)
+    if (!updated) {
+      return res.status(404).json({ error: 'Debater not found' });
+    }
+    res.json({ message: 'Update successful', data: updated });
   } catch (err) {
-    console.error(err)
-    next(err)
+    next(err); 
   }
 })
 // router.post('/', async (req, res, next) => {
