@@ -28,6 +28,26 @@ export async function addDebater(data) {
   )
 }
 
+export async function updateDebaterTraits(email, traits) {
+  if (!email) throw new Error('email required')
+  // validate traits fields to be number or set null
+  const validTraits = {
+    personality: traits.personality || null,
+    manner_flashy: traits.manner_flashy || null,
+    manner_technical: traits.manner_technical || null,
+    matter_creative: traits.matter_creative || null,
+    matter_methodical: traits.matter_methodical || null,
+    method_adaptive: traits.method_adaptive || null,
+    method_rigid: traits.method_rigid || null,
+    strategy_offense: traits.strategy_offense || null,
+    strategy_defense: traits.strategy_defense || null
+  }
+  result = repo.updatePersonalityTraits(email, validTraits)
+  if (!result) {
+    throw new Error('Debater not found')
+  }
+}      
+
 export async function updateDebater(id, data) {
   if (!id) throw new Error('id required')
   return repo.updateDebater(id, data)

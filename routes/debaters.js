@@ -28,6 +28,19 @@ router.get('/by-email/:email', async (req, res, next) => {
     next(err)
   }
 })
+
+router.post('/personality/:email', async (req, res, next) => {
+  try {
+    const email = decodeURIComponent(req.params.email)
+    const traits = req.body
+    const updated = await updateDebaterTraits(email, traits)
+    if (!updated) return res.status(404).send('Not found')
+    res.json(updated)
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
 // router.post('/', async (req, res, next) => {
 //   try {
 //     const created = await addDebater(req.body)
