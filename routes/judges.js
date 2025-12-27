@@ -28,6 +28,21 @@ router.get('/code/:code', async (req, res, next) => {
     next(err)
   }
 })
+
+router.post('/personality/:code', async (req, res, next) => {
+  try {
+    const { code } = req.params;
+    const updated = await updateJudgeTraits(code, req.body);
+
+    if (!updated) {
+      return res.status(404).json({ error: 'Judge not found' });
+    }
+
+    res.json({ message: 'Update successful', data: updated });
+  } catch (err) {
+    next(err); 
+  }
+});
 // router.post('/', async (req, res, next) => {
 //   try {
 //     const created = await addJudge(req.body)
