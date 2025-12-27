@@ -38,15 +38,11 @@ export async function updateDebaterTraits(email, traits) {
   // validate traits fields or set null
   const validTraits = {
     personality: traits.personality || null,
-    manner_flashy: traits.manner_flashy ?? null,
-    manner_technical: traits.manner_technical ?? null,
-    matter_creative: traits.matter_creative ?? null,
-    matter_methodical: traits.matter_methodical ?? null,
-    method_adaptive: traits.method_adaptive ?? null,
-    method_rigid: traits.method_rigid ?? null,
-    strategy_offense: traits.strategy_offense ?? null,
-    strategy_defense: traits.strategy_defense ?? null
-  }
+    manner: traits.manner ?? null,
+    matter: traits.matter ?? null,
+    method: traits.method ?? null,
+    attitude: traits.attitude ?? null,
+  };
   return await repo.updatePersonalityTraits(email, validTraits)
 }      
 
