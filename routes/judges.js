@@ -1,7 +1,6 @@
 import { Router } from "express"
 const router = Router()
-import { listJudgeProfiles, getJudge, addJudge, updateJudge, removeJudge } from '../services/judgeService.js'
-import { getJudgeByCode } from "../repositories/judgeRepository.js"
+import { listJudgeProfiles, getJudgeByCode, updateJudgeTraits } from '../services/judgeService.js'
 
 router.use(logger)
 

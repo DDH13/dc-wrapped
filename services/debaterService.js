@@ -47,7 +47,7 @@ export async function updateDebaterTraits(email, traits) {
     strategy_offense: traits.strategy_offense ?? null,
     strategy_defense: traits.strategy_defense ?? null
   }
-  result = await repo.updatePersonalityTraits(email, validTraits)
+  return await repo.updatePersonalityTraits(email, validTraits)
 }      
 
 export async function updateDebater(id, data) {

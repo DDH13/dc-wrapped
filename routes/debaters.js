@@ -1,8 +1,6 @@
 import { Router } from "express"
 const router = Router()
-import { listDebaterProfiles, getDebater, addDebater, updateDebater, removeDebater } from '../services/debaterService.js'
-import { getDebaterByEmail } from "../repositories/debaterRepository.js"
-
+import { listDebaterProfiles, getDebaterByEmail, updateDebaterTraits } from '../services/debaterService.js' 
 router.use(logger)
 
 router.get('/', async (req, res, next) => {
