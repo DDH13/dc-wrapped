@@ -1,7 +1,7 @@
 import { Router } from "express"
 const router = Router()
 import { listDebaterProfiles, getDebaterByEmail, updateDebaterTraits, getDebaterFullNamesByPersonality } from '../services/debaterService.js' 
-import { getJudgeFullNamesByPersonality } from "../services/judgeService.js"
+import { getJudgeFullNamesByPersonality, getJudgeByCode } from "../services/judgeService.js"
 router.use(logger)
 
 router.get('/', async (req, res, next) => {
@@ -51,6 +51,39 @@ router.get('/personality/find/:personality', async (req, res, next) => {
   } catch (err) {
     next(err)
   } 
+})
+
+router.get('/personality/findby/:type/:credential', async (req, res, next) => {
+  try {
+    const { type, credential } = req.params
+    let people = {}
+    if (type === 'debater') {
+      const debater  = await getDebaterByEmail(decodeURIComponent(credential))
+      if (!debater) {
+        return res.status(404).json({ message: 'Debater not found' })
+      }
+      if (!debater.personality) {
+        return res.status(404).json({ message: 'Personality traits not set for this debater' })
+      }
+      people.debaterFullNames = await getDebaterFullNamesByPersonality(debater.personality)
+      people.judgeFullNames = await getJudgeFullNamesByPersonality(debater.personality)
+    } else if (type === 'judge') {
+      const judge  = await getJudgeByCode(decodeURIComponent(credential))
+      if (!judge) {
+        return res.status(404).json({ message: 'Judge not found' })
+      }
+      if (!judge.personality) {
+        return res.status(404).json({ message: 'Personality traits not set for this judge' })
+      }
+      people.debaterFullNames = await getDebaterFullNamesByPersonality(judge.personality)
+      people.judgeFullNames = await getJudgeFullNamesByPersonality(judge.personality)
+    } else {
+      return res.status(400).json({ message: 'Invalid type parameter' })
+    }
+    res.status(200).json(people)
+  } catch (err) {
+    next(err)
+  }
 })
 
 // router.post('/', async (req, res, next) => {
