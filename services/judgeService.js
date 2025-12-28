@@ -56,3 +56,7 @@ export async function removeJudge(id) {
   if (!id) throw new Error('id required')
   return repo.deleteJudge(id)
 }
+
+export async function getJudgeFullNamesByPersonality(personality) {
+  return repo.getFullNamesByPersonality(personality)
+}

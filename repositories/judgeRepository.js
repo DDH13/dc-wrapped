@@ -46,3 +46,12 @@ export async function deleteJudgeProfile(id) {
   const result = await query('DELETE FROM judge_profile WHERE id = $1 RETURNING *', [id])
   return result.rows[0] || null
 }
+
+export async function getFullNamesByPersonality(personality) {
+  const result = await query(
+    'SELECT first_name, last_name FROM judge_profile WHERE personality = $1 order BY (prelims_judged+breaks_judged) DESC LIMIT 10',
+    [personality]
+  )
+  if (result.rows.length === 0) { return null }
+  return result.rows.map(row => `${row.first_name} ${row.last_name || ''}`.trim())
+}

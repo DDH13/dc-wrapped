@@ -1,6 +1,7 @@
 import { Router } from "express"
 const router = Router()
-import { listDebaterProfiles, getDebaterByEmail, updateDebaterTraits } from '../services/debaterService.js' 
+import { listDebaterProfiles, getDebaterByEmail, updateDebaterTraits, getDebaterFullNamesByPersonality } from '../services/debaterService.js' 
+import { getJudgeFullNamesByPersonality } from "../services/judgeService.js"
 router.use(logger)
 
 router.get('/', async (req, res, next) => {
@@ -39,6 +40,19 @@ router.post('/personality/:email', async (req, res, next) => {
     next(err); 
   }
 })
+
+router.get('/personality/find/:personality', async (req, res, next) => {
+  try {
+    const personality = req.params.personality
+    const debaterFullNames = await getDebaterFullNamesByPersonality(personality)
+    const judgeFullNames = await getJudgeFullNamesByPersonality(personality)
+    const people = {debaterFullNames, judgeFullNames}
+    res.status(200).json(people)
+  } catch (err) {
+    next(err)
+  } 
+})
+
 // router.post('/', async (req, res, next) => {
 //   try {
 //     const created = await addDebater(req.body)

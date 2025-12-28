@@ -55,3 +55,7 @@ export async function removeDebater(id) {
   if (!id) throw new Error('id required')
   return repo.deleteDebater(id)
 }
+
+export async function getDebaterFullNamesByPersonality(personality) {
+  return repo.getFullNamesByPersonality(personality)
+}
