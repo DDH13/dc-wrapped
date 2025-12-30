@@ -19,9 +19,11 @@ router.get('/code/:code', async (req, res, next) => {
 
     const judge = await getJudgeByCode(code)
     if (!judge) {
+      console.log(`Judge with code ${code} not found`)
       return res.status(404).json({ message: 'Not found' })
     }
 
+    console.log(`Found judge: ${judge.first_name} ${judge.last_name}`)
     res.status(200).json(judge)
   } catch (err) {
     next(err)
@@ -34,10 +36,12 @@ router.post('/personality/:code', async (req, res, next) => {
     const updated = await updateJudgeTraits(code, req.body);
 
     if (!updated) {
+      console.log(`Judge with code ${code} not found`)
       return res.status(404).json({ error: 'Judge not found' });
     }
 
     res.json({ message: 'Update successful', data: updated });
+    console.log(`Updated judge traits for code: ${code}`);
   } catch (err) {
     next(err); 
   }

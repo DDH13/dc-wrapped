@@ -19,9 +19,10 @@ router.get('/by-email/:email', async (req, res, next) => {
 
     const debater = await getDebaterByEmail(email)
     if (!debater) {
+      console.log(`Debater with email ${email} not found`)
       return res.status(404).json({ message: 'Not found' })
     }
-
+    console.log(`Found debater: ${debater.first_name} ${debater.last_name}`)
     res.status(200).json(debater)
   } catch (err) {
     next(err)
@@ -33,8 +34,10 @@ router.post('/personality/:email', async (req, res, next) => {
     const email = decodeURIComponent(req.params.email)
     const updated = await updateDebaterTraits(email, req.body)
     if (!updated) {
+      console.log(`Debater with email ${email} not found`)
       return res.status(404).json({ error: 'Debater not found' });
     }
+    console.log(`Updated debater traits for email: ${email}`);
     res.json({ message: 'Update successful', data: updated });
   } catch (err) {
     next(err); 
