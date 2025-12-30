@@ -6,8 +6,9 @@ router.use(logger)
 
 router.get('/', async (req, res, next) => {
   try {
-    const debaters = await listDebaterProfiles()
-    res.json(debaters)
+    // const debaters = await listDebaterProfiles()
+    res.json({message: "Debater route is working"})
+    // res.json(debaters)
   } catch (err) {
     next(err)
   }

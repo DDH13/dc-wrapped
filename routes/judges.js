@@ -6,8 +6,9 @@ router.use(logger)
 
 router.get('/', async (req, res, next) => {
   try {
-    const judges = await listJudgeProfiles()
-    res.json(judges)
+    // const judges = await listJudgeProfiles()
+    // res.json(judges)
+    res.json({message: "Judge route is working"})
   } catch (err) {
     next(err)
   }
